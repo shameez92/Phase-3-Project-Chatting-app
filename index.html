@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/JavaScript">
+        let socket = io(); 
+        // this code is use to recevie the data from server 
+        socket.on("serverResp",(msg)=> {
+            console.log(msg);// it display on browser console. 
+        })
+        let sendInfo = ()=> {
+            let userName = document.getElementById("user").value;
+            let userMessage = document.getElementById("userChat").value;
+            socket.emit("clientMessage",{name:userName,message:userMessage});
+            document.getElementById("user").disabled = true;
+
+            document.getElementById("userChat").value = "";
+
+        }
+
+        let reset = () => {
+            document.getElementById("user").value= "";
+            document.getElementById("user").disabled = false;
+            document.getElementById("userChat").value = "";
+        }
+    </script>
+</head>
+<body bgcolor="#b2bec3">
+
+    <h2>Welcome simple socket.io programming</h2>
+    <table border="1">
+        <tr>
+            <td>
+                <label>Your name : </label>
+            </td>
+            <td>
+                <input type="text" id="user">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>Your Chat : </label>
+            </td>
+            <td>
+                <textarea id="userChat" cols="50"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="button" value="Let's Chat" onclick="sendInfo()"/>
+            </td>
+            <td>
+                <input type="button" value="Reset" onclick="reset()"/>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
